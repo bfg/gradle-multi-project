@@ -1,0 +1,9 @@
+//
+// build.gradle
+//
+
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+
+    compile "org.codehaus.groovy:groovy-all"
+}

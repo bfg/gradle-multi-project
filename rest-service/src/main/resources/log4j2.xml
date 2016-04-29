@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" shutdownHook="disable">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/-->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- comment the following to debug spring related issues (i feel sorry for you bro) -->
+        <!--Logger name="org.springframework" level="warn"/-->
+        <!-- Logger name="org.springframework.web.servlet.mvc.method.annotation" level="warn"/-->
+        <!-- Logger name="org.springframework.test.web.servlet.setup" level="warn"/-->
+        <!-- Logger name="org.springframework.boot.actuate.endpoint.mvc" level="warn"/-->
+        <!-- Logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="warn"/-->
+
+        <!-- Logger name="org.springframework.context.support" level="warn"/-->
+        <!-- Logger name="org.springframework.context.annotation" level="warn"/-->
+        <!-- Logger name="org.springframework.beans.factory.annotation" level="warn"/-->
+
+
+        <Logger name="com.netflix" level="warn"/>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,7 @@
+
+# get some docs swag, yo!
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /docs/api

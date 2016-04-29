@@ -1,0 +1,83 @@
+//
+// build.gradle
+//
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+
+        // required for pdf
+        //classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.10.1'
+
+        classpath 'io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE'
+    }
+}
+
+apply plugin: 'spring-boot'
+apply plugin: 'org.asciidoctor.convert'
+
+configurations {
+    compile.exclude module: "jul-to-slf4j"
+    compile.exclude module: "log4j-over-slf4j"
+    compile.exclude module: "logback-classic"
+
+    // no need for these deps in runtime
+    //runtime.exclude group: "org.springframework.boot", module: "spring-boot-devtools"
+
+    // no need for built-in tomcat (we use undertow)
+    runtime.exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    compile.exclude module: "tomcat-embed-el"
+    compile.exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+
+    compile "org.codehaus.groovy:groovy-all"
+
+    // spring boot
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-undertow"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    runtime "org.springframework.boot:spring-boot-starter-log4j2"
+
+    // springfox/swagger
+    compile "io.springfox:springfox-swagger2"
+    compile "io.springfox:springfox-swagger-ui"
+    testCompile "io.github.robwin:swagger2markup:0.9.2"
+
+    // our own dependencies
+    compile project(':dto')
+    compile project(':tools')
+
+    // testing
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+}
+
+bootRun {
+    addResources = true
+}
+
+asciidoctor {
+    dependsOn test
+    sourceDir = file('build/docs/asciidoc/generated')
+    //backends = ['html5', 'pdf']
+    backends = ['html5']
+    attributes = [
+            doctype    : 'book',
+            toc        : 'left',
+            toclevels  : '2',
+            numbered   : '',
+            sectlinks  : '',
+            sectanchors: '',
+            generated  : file('build/docs/asciidoc/generated')
+    ]
+}
+
+// generate docs before jar build
+jar {
+    dependsOn asciidoctor
+}

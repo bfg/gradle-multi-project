@@ -1,0 +1,10 @@
+//
+// build.gradle
+//
+
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+
+    // swagger
+    compileOnly "io.swagger:swagger-annotations"
+}
